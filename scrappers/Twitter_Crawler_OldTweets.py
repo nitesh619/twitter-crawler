@@ -20,7 +20,6 @@ MAXTWEETS = 50  # Set the max number of tweets to receive from crawling for each
 sme = pandas.read_csv('twt.csv', sep='|', header=0, encoding='utf-8')  # Opel SME customers
 tweets = pandas.Series()
 
-f = open("tweeeet.json", "a")
 # Get the tweets:
 for name in sme['keywords']:
     tw = u''
@@ -32,7 +31,6 @@ for name in sme['keywords']:
     tweets = tweets.append(pandas.Series([tw]))
 sme = sme.assign(tweets=tweets.values)
 
-f.close()
 # For testing:
 forNaNcounting = pandas.Series()
 for twt in sme['tweets']:
@@ -40,7 +38,7 @@ for twt in sme['tweets']:
         forNaNcounting = forNaNcounting.append(pandas.Series([np.nan]))
     else:
         forNaNcounting = forNaNcounting.append(pandas.Series([twt]))
-print 'Percentage found/all: ' + str(100 * (len(sme.index) - forNaNcounting.isnull().sum()) / len(sme.index))
+print('Percentage found/all: ' + str(100 * (len(sme.index) - forNaNcounting.isnull().sum()) / len(sme.index)))
 
 # Export into csv:
 actual = str(time.strftime("%d %b %Y %H %M %S"))  # Just to keep track...
