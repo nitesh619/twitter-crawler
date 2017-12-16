@@ -10,10 +10,9 @@
     "tweets_per_query": 100,
     "lang": null,
     "result_type": null,
-    "max_id": -1,
-    "since_id": -1,
-    "until": null,
-    "country": null,
-    "city": "PATAN"
+    "since": "2017-12-13",
+    "until": "2017-12-15",
+    "country": "USA",
+    "city": null
   }
 }
