@@ -7,12 +7,18 @@
   },
 
   "search_configuration": {
-    "tweets_per_query": 100,
+    "tweets_per_query": 10,
     "lang": null,
-    "result_type": null,
-    "since": "2017-12-13",
-    "until": "2017-12-15",
-    "country": "USA",
+    "result_type": "mixed",
+    "since": null,
+    "until": null,
+    "country": null,
     "city": null
+  },
+  "old_tweet_configuration": {
+    "max_tweets": 20,
+    "since": null,
+    "until": null,
+    "top_tweets": false
   }
 }

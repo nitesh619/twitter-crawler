@@ -26,12 +26,12 @@ class MyListener(StreamListener):
                 return True
 
         except BaseException as e:
-            print "Error " + str(e)
+            print("Error " + str(e))
 
         return True
 
     def on_error(self, status_code):
-        print status_code
+        print(status_code)
         return True
 
 twitter_stream = tweepy.Stream(auth, MyListener())
