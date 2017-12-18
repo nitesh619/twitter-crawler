@@ -8,13 +8,15 @@ settings = json.load(open('settings.json'))
 keywords = pd.read_csv('keywords.csv')
 profile_link_prefix = 'https://twitter.com/'
 
-columns = ['Name', 'Handle', 'Verified', 'Bio', 'Profile_Link']
+columns = ['Name', 'Handle', 'Verified', 'Profile_Link', 'Country', 'City', 'Bio']
 search_leads = pd.DataFrame([], [], columns)
 
 lead_names = []
 lead_handles = []
 lead_bio = []
 lead_verified = []
+lead_country = []
+lead_city = []
 
 credentials = settings['credentials']
 config = settings['search_configuration']
@@ -83,12 +85,10 @@ def search_twitter(**kwargs):
             lead_handles.append("@" + user['screen_name'])
             lead_bio.append(user['description'])
             lead_verified.append(user['verified'])
+            if tweet_json['place']:
+                lead_country.append(tweet_json['place']['country'])
+                lead_city.append(tweet_json['place']['name'])
             search_count += 1
-        search_leads['Name'] = pd.Series(lead_names)
-        search_leads['Handle'] = pd.Series(lead_handles)
-        search_leads['Verified'] = pd.Series(lead_verified)
-        search_leads['Bio'] = pd.Series(lead_bio)
-        search_leads['Profile_Link'] = profile_link_prefix + search_leads['Handle'].map(lambda x: str(x)[1:])
         print('Found {0} matching tweets.'.format(search_count))
 
 
@@ -109,11 +109,21 @@ def prepare_search_query(config):
 
 
 since, until, result_type, place = prepare_search_query(config)
-for key in keywords['Keywords'].append(keywords['HashTags']).head():
-    query = place + key
+for key, tag in zip(keywords['Keywords'].head(2), keywords['HashTags'].head(2)):
+    query = place + key + " OR " + tag
     search_twitter(query=query, since=since, until=until, result_type=result_type)
+
+search_leads['Name'] = pd.Series(lead_names)
+search_leads['Handle'] = pd.Series(lead_handles)
+search_leads['Verified'] = pd.Series(lead_verified)
+search_leads['Bio'] = pd.Series(lead_bio)
+search_leads['Country'] = pd.Series(lead_country)
+search_leads['City'] = pd.Series(lead_city)
+search_leads['Bio'] = pd.Series(lead_bio)
+search_leads['Profile_Link'] = profile_link_prefix + search_leads['Handle'].map(lambda x: str(x)[1:])
 
 search_leads.drop_duplicates(subset=['Handle'], keep=False, inplace=True)
 search_leads.reset_index(drop=True, inplace=True)
-#
+print 'Total {} tweets found'.format(len(lead_handles))
+print 'Total {} unique twitter handles.'.format(search_leads.shape[0])
 search_leads.to_csv(path_or_buf='twitter_output.csv', sep=',', encoding='utf-8')
