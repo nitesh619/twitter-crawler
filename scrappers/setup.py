@@ -1,3 +1,6 @@
-from distutils.core import setup
+from cx_Freeze import setup, Executable
 
-setup(console=['Twitter_searching.py'])
+setup(name='Crawler',
+      version='1.0',
+      description='Twitter search',
+      executables=[Executable("Twitter_Search.py")])
