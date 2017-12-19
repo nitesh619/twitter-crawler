@@ -7,6 +7,7 @@ import tweepy
 try:
     settings = json.load(open('settings.json'))
     keywords = pd.read_csv('keywords.csv')
+    keywords.fillna('', inplace=True)
 except Exception, e:
     print 'Problem with settings.json or keywords.csv: ' + str(e)
     print 'Aborting searching...'
@@ -22,8 +23,6 @@ API_KEY = credentials["consumer_key"]
 API_SECRET = credentials["consumer_secret"]
 ACCESS_TOKEN = credentials['access_token']
 ACCESS_SECRET = credentials['access_secret']
-
-tweet_per_query = config["tweets_per_query"] or 50
 
 # Authenticate with your app credentials
 auth = tweepy.AppAuthHandler(API_KEY, API_SECRET)
@@ -71,7 +70,7 @@ def search_twitter(**kwargs):
 
     search_count = 0
     for status in tweepy.Cursor(api.search, q=kwargs['query'],
-                                count=tweet_per_query,
+                                count=100,
                                 since=kwargs['since'],
                                 until=kwargs['until'],
                                 result_type=kwargs['result_type']).items():
@@ -114,6 +113,7 @@ search_leads.reset_index(drop=True, inplace=True)
 try:
     filter_handles = pd.read_csv('filter.csv')
     search_leads = search_leads[~search_leads.Handle.isin(filter_handles.Handle)]
+    print 'Applying Filter!'
 except:
     print 'No filter csv found!'
 

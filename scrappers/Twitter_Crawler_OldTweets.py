@@ -60,6 +60,7 @@ search_leads.reset_index(drop=True, inplace=True)
 try:
     filter_handles = pandas.read_csv('filter.csv')
     search_leads = search_leads[~search_leads.Handle.isin(filter_handles.Handle)]
+    print 'Applying Filter!'
 except:
     print 'No filter csv found!'
 
