@@ -32,13 +32,25 @@ pip install -r requirements.txt
   - **filter.csv** file contains list of twitter handles that should be excluded from search output. It must have one column:
     - **Handle**: List of excluded twitter user handles.
 
+
+## Generating Credentials (Key and Tokens)
+
+- Login to your twitter account.
+- Open the Twitter App Console(https://apps.twitter.com/).
+- Click "Create New App" if no Twitter Apps are registered yet with your account.
+- Fill Application Details in the form. Enter any url in "website" input box.
+- Check "Developer Agreement" and click "create new twitter application" button.
+- Click on "Keys and Access Tokens" Tab.
+- Click on "Create my Access Token" button to generate tokens.
+
+
 ## Settings.json
 
 - **credentials:** Twitter API keys and tokens to authenticate using Twitter gateway.
-  - **max_tweets** (int): The maximum number of tweets to be retrieved. If this number is unsetted or lower than 1 all possible tweets will be retrieved.
-  - **since** (str. "yyyy-mm-dd"): A lower bound date to restrict search.
-  - **until** (str. "yyyy-mm-dd"): An upper bound date to restrist search.
-  - **top_tweets** (boolean): True, if you only want to include top tweet's in search result.
+  - **consumer_key** (str): Copy "Consumer Key (API Key)" value under Application Settings.
+  - **consumer_secret** (str): Copy "Consumer Secret (API Secret)" value under Application Settings.
+  - **access_token** (str): Copy "Access Token" value under Your Access Token.
+  - **access_secret** (str): Copy "Access Token Secret" value under Your Access Token.
   
 - **old_tweet_configuration:** A collection of search parameters to be used together with **Twitter_Crawler_OldTweets**.
   - **max_tweets** (int): The maximum number of tweets to be retrieved. If this number is unsetted or lower than 1 all possible tweets will be retrieved.
